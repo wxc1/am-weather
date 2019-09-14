@@ -1,5 +1,4 @@
 const request = require('request')
-
 //
 // Goal: Create a reusable function for getting the forecast
 //
@@ -20,14 +19,17 @@ request({url, json: true}, (error, { body}) => {
     }else if(body.error) {
         callback('Unable to find weather of long, lat please try again! ', undefined)
     }else{
-        const summary = body.daily.data[0].summary
+        const dailyData = body.daily.data[0]
+        const summary = dailyData.summary
         const temp = body.currently.temperature
         const percip =  body.currently.precipProbability
-        callback(undefined,
-             summary+ " It is currently " + temp + " degrees" + ". There is a " + percip + " chance of rain."
-            
-            )
 
+        callback(undefined,
+             summary+ " It is currently " + temp + " degrees" + ". There is a " + percip + "% chance of rain.  Hi of " + dailyData.temperatureHigh + " Lo of " + dailyData.temperatureLow
+
+            )
+            
+            
     }
 }
 
